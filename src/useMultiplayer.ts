@@ -4,6 +4,7 @@ import { io, Socket } from 'socket.io-client';
 export type RoomPlayer = { id: string; name: string; isHost: boolean; ready: boolean };
 export type RoomInfo = {
     id: string;
+    host: string;
     players: RoomPlayer[];
     status: 'lobby' | 'playing';
     state: any;

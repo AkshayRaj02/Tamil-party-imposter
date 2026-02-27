@@ -30,6 +30,7 @@ app.get("/", (req, res) => {
 export type Player = { id: string; name: string; isHost: boolean; ready: boolean };
 export type Room = {
     id: string;
+    host: string;
     players: Player[];
     status: 'lobby' | 'playing';
     state: any; // Game state will go here
@@ -50,6 +51,7 @@ io.on('connection', (socket) => {
 
         const newRoom: Room = {
             id: roomId,
+            host: socket.id,
             players: [{ id: socket.id, name: playerName, isHost: true, ready: false }],
             status: 'lobby',
             state: {}

@@ -125,8 +125,11 @@ export default function App() {
 
     const isHost = () => {
         if (!isOnline) return true;
+        if (st === 'host_setup') return true;
         if (!room) return false;
-        return room.players.some(p => p.id === socket?.id && p.isHost);
+        // The host might still have an empty room.players array right when the room is created
+        // so we check if the room.host matches our socket.id or if we are marked as host in the players array
+        return room.host === socket?.id || room.players.some(p => p.id === socket?.id && p.isHost);
     };
 
     const lb = useMemo(() => [...players].sort((a, b) => b.score - a.score || a.name.localeCompare(b.name)), [players]);
