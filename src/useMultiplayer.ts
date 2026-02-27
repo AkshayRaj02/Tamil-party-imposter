@@ -14,6 +14,9 @@ export type RoomInfo = {
 // @ts-ignore
 const SERVER_URL = import.meta.env.VITE_SERVER_URL || `http://${window.location.hostname}:3001`;
 
+console.log("INITIALIZING SOCKET CONNECTION TO: ", SERVER_URL);
+console.log("ENV VARS AVAILABLE: ", import.meta.env);
+
 export function useMultiplayer() {
     const [socket, setSocket] = useState<Socket | null>(null);
     const [room, setRoom] = useState<RoomInfo | null>(null);
@@ -32,7 +35,15 @@ export function useMultiplayer() {
             // Ensure connection uses the correct protocol from SERVER_URL
             const newSocket = io(SERVER_URL);
 
-            newSocket.on('connect', () => setIsConnected(true));
+            newSocket.on('connect', () => {
+                console.log("SUCCESSFULLY CONNECTED TO SERVER: ", SERVER_URL);
+                setIsConnected(true);
+            });
+
+            newSocket.on('connect_error', (err) => {
+                console.error("SOCKET CONNECTION ERROR: ", err.message);
+                console.error("ATTEMPTED URL: ", SERVER_URL);
+            });
 
             newSocket.on('disconnect', () => {
                 setIsConnected(false);
