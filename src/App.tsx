@@ -13,6 +13,7 @@ const shuffle = <T,>(array: T[]) => [...array].sort(() => Math.random() - 0.5);
 export default function App() {
     const { socket, room, isConnected, error, createRoom, joinRoom, updateGameState, leaveRoom } = useMultiplayer();
     const [isOnline, setIsOnline] = useState(false);
+    const [isLocalHost, setIsLocalHost] = useState(false);
 
     // Check URL for room code to auto-join
     useEffect(() => {
@@ -126,6 +127,7 @@ export default function App() {
     const isHost = () => {
         if (!isOnline) return true;
         if (st === 'host_setup') return true;
+        if (isLocalHost) return true;
         if (!room) return false;
         // The host might still have an empty room.players array right when the room is created
         // so we check if the room.host matches our socket.id or if we are marked as host in the players array
@@ -161,6 +163,7 @@ export default function App() {
 
     const newPassAndPlay = useCallback(() => {
         setIsOnline(false);
+        setIsLocalHost(false);
         setPlayers(DEFAULT_PLAYERS);
         setRounds([]); setSid(`S-${Date.now()}`); setOver(false);
         setSt('setup'); tone(480);
@@ -168,6 +171,7 @@ export default function App() {
 
     const hostOnlineSession = useCallback(() => {
         setIsOnline(true);
+        setIsLocalHost(true);
         // Prompt for host name immediately
         const name = prompt("Enter your Name:") || "Host";
         createRoom(name);
@@ -328,6 +332,7 @@ export default function App() {
                 <button disabled={!name} onClick={() => {
                     if (name) {
                         setIsOnline(true);
+                        setIsLocalHost(true);
                         createRoom(name);
                         setPlayers([{ name, gender: 'M', score: 0 }]);
                         setRounds([]); setSid(`S-${Date.now()}`); setOver(false);
@@ -351,6 +356,7 @@ export default function App() {
                 <button disabled={!roomCode || !name} onClick={() => {
                     if (roomCode && name) {
                         setIsOnline(true);
+                        setIsLocalHost(false);
                         joinRoom(roomCode, name);
                     }
                 }} className="btn-primary w-full py-3 rounded-xl font-bold disabled:opacity-50">Join Room</button>
