@@ -13,11 +13,7 @@ app.use((req, res, next) => {
 
 const io = new Server(httpServer, {
     cors: {
-        origin: [
-            "http://localhost:5173",
-            "http://localhost:3000",
-            "https://yourgame.vercel.app"
-        ],
+        origin: "*",
         methods: ["GET", "POST"]
     },
 });
