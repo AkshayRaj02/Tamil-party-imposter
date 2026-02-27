@@ -115,7 +115,8 @@ export const Setup = ({
             <div className="pt-4 flex gap-3">
                 <Button variant="secondary" onClick={onBack} className="!w-1/3">Back</Button>
                 <Button onClick={onStart} disabled={players.length < 3 || cats.length === 0} className="!w-2/3">
-                    <Play className="w-5 h-5 mr-2" /> Start Let's Go!
+                    <Play className="w-5 h-5 mr-2" />
+                    {players.length < 3 ? `Need ${3 - players.length} more` : "Start Let's Go!"}
                 </Button>
             </div>
         </Card>
