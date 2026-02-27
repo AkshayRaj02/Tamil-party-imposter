@@ -447,7 +447,7 @@ export default function App() {
                         {st === 'setup' && (
                             <motion.div key="setup" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}>
                                 {(isHost() || !isOnline) ? (
-                                    <Setup sid={sid} players={players} setPlayers={setPlayers} cats={cats} setCats={setCats}
+                                    <Setup sid={sid} roomCode={room?.id} players={players} setPlayers={setPlayers} cats={cats} setCats={setCats}
                                         difficulty={difficulty} setDifficulty={setDifficulty} mode={mode} setMode={setMode}
                                         rl={rl} setRl={setRl} onStart={startRound} onBack={() => { if (isOnline) leaveRoom(); setSt('mainmenu') }} isOnline={isOnline} />
                                 ) : (

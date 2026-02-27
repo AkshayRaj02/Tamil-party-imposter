@@ -21,7 +21,7 @@ export const MainMenu = ({ onStart, onHistory }: { onStart: () => void, onHistor
 );
 
 export const Setup = ({
-    sid, players, setPlayers, cats, setCats, difficulty, setDifficulty,
+    sid, roomCode, players, setPlayers, cats, setCats, difficulty, setDifficulty,
     mode, setMode, rl, setRl, onStart, onBack, isOnline
 }: any) => {
     const [name, setName] = useState('');
@@ -38,7 +38,16 @@ export const Setup = ({
         <Card className="space-y-6">
             <div className="flex justify-between items-center mb-4">
                 <Title className="!mb-0">Setup Game</Title>
-                <div className="text-xs font-mono bg-black/20 px-2 py-1 rounded opacity-70">ID: {sid.split('-')[1]}</div>
+                {isOnline && roomCode ? (
+                    <div className="flex flex-col items-end">
+                        <div className="text-[10px] text-purple-300 font-bold tracking-wider uppercase mb-1">Room Code</div>
+                        <div className="text-xl font-mono tracking-widest bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-lg border border-indigo-500/30">
+                            {roomCode}
+                        </div>
+                    </div>
+                ) : (
+                    <div className="text-xs font-mono bg-black/20 px-2 py-1 rounded opacity-70">ID: {sid.split('-')[1]}</div>
+                )}
             </div>
 
             {!isOnline && (
